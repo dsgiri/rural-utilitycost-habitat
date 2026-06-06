@@ -115,7 +115,17 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
                 <div className="space-y-3 mt-4">
                   <div className="flex items-start gap-2 text-sm text-stone-600">
                     <MapPin className="h-4 w-4 text-stone-400 shrink-0 mt-0.5" />
-                    <span>{species.location}</span>
+                    <div className="flex flex-col">
+                      <span>{species.location}</span>
+                      {(species.locationPrecision || species.latitude) && (
+                        <span className="text-xs text-stone-400 mt-0.5">
+                          {[
+                            species.locationPrecision && `Precision: ${species.locationPrecision}`,
+                            species.latitude && species.longitude && `Coordinates: ${species.latitude.toFixed(3)}, ${species.longitude.toFixed(3)}`
+                          ].filter(Boolean).join(' • ')}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   
                   <div className="flex items-start gap-2 text-sm text-stone-600">

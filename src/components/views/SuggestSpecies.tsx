@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { CheckCircle2, ShieldAlert, Leaf } from 'lucide-react';
-import { Species, Category, NativeStatus } from '../../types';
+import { CheckCircle2, ShieldAlert, Leaf, MapPin } from 'lucide-react';
+import { Species, Category, NativeStatus, LocationPrecision } from '../../types';
 
 interface SuggestSpeciesProps {
   onSubmit: (species: Omit<Species, 'id' | 'status' | 'createdAt'>) => Promise<boolean>;
@@ -16,6 +16,9 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
     scientificName: '',
     category: 'flower' as Category,
     location: '',
+    locationPrecision: 'county' as LocationPrecision,
+    latitude: '' as number | '',
+    longitude: '' as number | '',
     nativeStatus: 'native' as NativeStatus,
     note: '',
     submitterName: ''
@@ -31,7 +34,37 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
     { value: 'other', label: 'Other / Unsure' }
   ];
 
+  const precisionOptions: { value: LocationPrecision, label: string }[] = [
+    { value: 'exact', label: 'Exact Coordinates' },
+    { value: 'city', label: 'City / Town' },
+    { value: 'county', label: 'County' },
+    { value: 'region', label: 'Ecoregion / Region' },
+    { value: 'state', label: 'State' },
+    { value: 'approximate', label: 'Approximate Area' }
+  ];
+
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setFormData(prev => ({
+            ...prev,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            locationPrecision: 'exact'
+          }));
+        },
+        (error) => {
+          console.error("Error getting location: ", error);
+          alert("Could not get your location. Please ensure location services are enabled or enter manually.");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +88,11 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
 
     setIsSubmitting(true);
     try {
-      const success = await onSubmit(formData);
+      const submissionData = { ...formData };
+      if (submissionData.latitude === '') delete submissionData.latitude;
+      if (submissionData.longitude === '') delete submissionData.longitude;
+
+      const success = await onSubmit(submissionData as any);
       if (success) {
         setIsSubmitted(true);
       } else {
@@ -197,19 +234,88 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
             </div>
           </div>
 
-          <div className="space-y-1.5">
-            <label htmlFor="location" className="block text-sm font-medium text-stone-700">
-              Region / Location <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              placeholder="State, County, or Ecological Region (e.g., Pacific Northwest, Texas Hill Country)"
-              className="w-full px-3 py-2 border border-stone-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm"
-            />
+          <div className="space-y-4 border border-stone-200 rounded-lg p-5 bg-stone-50">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-4">
+              <div>
+                <h4 className="text-sm font-medium text-stone-900">Observation Location</h4>
+                <p className="text-xs text-stone-500">Where did you see this species natively?</p>
+              </div>
+              <button 
+                type="button" 
+                onClick={handleGetLocation}
+                className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-stone-300 rounded text-xs font-medium text-stone-700 hover:bg-stone-50 transition-colors shadow-sm"
+              >
+                <MapPin className="w-3.5 h-3.5" />
+                Use current coordinates
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="space-y-1.5">
+                <label htmlFor="location" className="block text-sm font-medium text-stone-700">
+                  Location Description <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="e.g., Travis County, Texas or Pacific Northwest"
+                  className="w-full px-3 py-2 border border-stone-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label htmlFor="locationPrecision" className="block text-sm font-medium text-stone-700">
+                  Location Precision
+                </label>
+                <select
+                  id="locationPrecision"
+                  name="locationPrecision"
+                  value={formData.locationPrecision}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-stone-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                >
+                  {precisionOptions.map(o => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-1.5">
+                <label htmlFor="latitude" className="block text-xs font-medium text-stone-500">
+                  Latitude (Optional)
+                </label>
+                <input
+                  type="number"
+                  step="any"
+                  id="latitude"
+                  name="latitude"
+                  value={formData.latitude}
+                  onChange={handleChange}
+                  className="w-full px-3 py-1.5 border border-stone-300 bg-white rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm opacity-80"
+                  placeholder="e.g., 30.2672"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label htmlFor="longitude" className="block text-xs font-medium text-stone-500">
+                  Longitude (Optional)
+                </label>
+                <input
+                  type="number"
+                  step="any"
+                  id="longitude"
+                  name="longitude"
+                  value={formData.longitude}
+                  onChange={handleChange}
+                  className="w-full px-3 py-1.5 border border-stone-300 bg-white rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm opacity-80"
+                  placeholder="e.g., -97.7431"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="space-y-1.5">

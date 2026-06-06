@@ -17,11 +17,14 @@ const INITIAL_DATA = [
     scientificName: 'Quercus alba',
     category: 'tree',
     location: 'Eastern US',
+    nativeRangeLevel: 'region',
+    locationPrecision: 'region',
     nativeStatus: 'native',
     note: 'Important canopy tree supporting hundreds of moth and butterfly species. Crucial for local ecosystems.',
     submitterName: 'System',
     status: 'approved',
     createdAt: new Date(Date.now() - 100000000).toISOString(),
+    source: 'Initial Database'
   },
   {
     id: '2',
@@ -29,11 +32,14 @@ const INITIAL_DATA = [
     scientificName: 'Echinacea purpurea',
     category: 'flower',
     location: 'Eastern & Central US',
+    nativeRangeLevel: 'region',
+    locationPrecision: 'region',
     nativeStatus: 'native',
     note: 'Great for pollinators in the summer, and birds eat the seeds in winter. Extremely drought tolerant.',
     submitterName: 'System',
     status: 'approved',
     createdAt: new Date(Date.now() - 80000000).toISOString(),
+    source: 'Initial Database'
   },
   {
     id: '3',
@@ -41,11 +47,14 @@ const INITIAL_DATA = [
     scientificName: 'Sialia sialis',
     category: 'bird',
     location: 'Eastern North America',
+    nativeRangeLevel: 'region',
+    locationPrecision: 'region',
     nativeStatus: 'native',
     note: 'Requires cavity nests. Great natural insect control for homesteads.',
     submitterName: 'System',
     status: 'approved',
     createdAt: new Date(Date.now() - 40000000).toISOString(),
+    source: 'Initial Database'
   }
 ];
 

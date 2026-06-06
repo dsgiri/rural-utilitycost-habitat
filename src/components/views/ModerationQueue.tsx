@@ -70,7 +70,17 @@ export function ModerationQueue({ speciesList, onApprove, onReject }: Moderation
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 text-sm">
                 <div>
                   <span className="block text-stone-400 text-xs uppercase tracking-wider font-semibold mb-1">Location</span>
-                  <span className="text-stone-800">{species.location}</span>
+                  <div className="flex flex-col">
+                    <span className="text-stone-800">{species.location}</span>
+                    {(species.locationPrecision || species.latitude) && (
+                      <span className="text-stone-500 text-xs mt-0.5">
+                        {[
+                          species.locationPrecision && `Precision: ${species.locationPrecision}`,
+                          species.latitude && species.longitude && `${species.latitude.toFixed(3)}, ${species.longitude.toFixed(3)}`
+                        ].filter(Boolean).join(' • ')}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <span className="block text-stone-400 text-xs uppercase tracking-wider font-semibold mb-1">Submitted By</span>
