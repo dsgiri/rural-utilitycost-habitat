@@ -107,49 +107,49 @@ export default function App() {
     <>
       <button
         onClick={() => { setCurrentView('database'); setIsMobileMenuOpen(false); }}
-        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-none border-2 text-sm font-bold transition-all ${
           currentView === 'database' 
-            ? 'bg-emerald-50 text-emerald-700' 
-            : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+            ? 'bg-[#FBEB9F] border-stone-900 shadow-[2px_2px_0_0_rgba(28,25,23,1)] text-stone-900' 
+            : 'border-transparent text-stone-700 hover:border-stone-900 hover:shadow-[2px_2px_0_0_rgba(28,25,23,1)] hover:text-stone-900'
         }`}
       >
-        <Library className="h-4 w-4" />
-        Library
+        <Library className="h-4 w-4 stroke-[2.5]" />
+        Field Guide
       </button>
       <button
         onClick={() => { setCurrentView('suggest'); setIsMobileMenuOpen(false); }}
-        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-none border-2 text-sm font-bold transition-all ${
           currentView === 'suggest' 
-            ? 'bg-emerald-50 text-emerald-700' 
-            : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+            ? 'bg-[#A7F3D0] border-stone-900 shadow-[2px_2px_0_0_rgba(28,25,23,1)] text-stone-900' 
+            : 'border-transparent text-stone-700 hover:border-stone-900 hover:shadow-[2px_2px_0_0_rgba(28,25,23,1)] hover:text-stone-900'
         }`}
       >
-        <PlusCircle className="h-4 w-4" />
+        <PlusCircle className="h-4 w-4 stroke-[2.5]" />
         Contribute
       </button>
       <button
         onClick={() => { setCurrentView('about'); setIsMobileMenuOpen(false); }}
-        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-none border-2 text-sm font-bold transition-all ${
           currentView === 'about' 
-            ? 'bg-emerald-50 text-emerald-700' 
-            : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+            ? 'bg-[#BFDBFE] border-stone-900 shadow-[2px_2px_0_0_rgba(28,25,23,1)] text-stone-900' 
+            : 'border-transparent text-stone-700 hover:border-stone-900 hover:shadow-[2px_2px_0_0_rgba(28,25,23,1)] hover:text-stone-900'
         }`}
       >
-        <Info className="h-4 w-4" />
+        <Info className="h-4 w-4 stroke-[2.5]" />
         About
       </button>
       <button
         onClick={() => { setCurrentView('admin'); setIsMobileMenuOpen(false); }}
-        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-none border-2 text-sm font-bold transition-all ${
           currentView === 'admin' 
-            ? 'bg-amber-50 text-amber-700' 
-            : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+            ? 'bg-stone-200 border-stone-900 shadow-[2px_2px_0_0_rgba(28,25,23,1)] text-stone-900' 
+            : 'border-transparent text-stone-700 hover:border-stone-900 hover:shadow-[2px_2px_0_0_rgba(28,25,23,1)] hover:text-stone-900'
         }`}
       >
-        <ShieldCheck className="h-4 w-4" />
+        <ShieldCheck className="h-4 w-4 stroke-[2.5]" />
         Admin
         {pendingCount > 0 && (
-          <span className="ml-1 bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+          <span className="ml-1 bg-stone-900 text-white text-[10px] px-1.5 py-0.5 rounded-none font-bold">
             {pendingCount}
           </span>
         )}
@@ -158,23 +158,27 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50 text-stone-900 font-sans relative">
-      <header className="bg-white border-b border-stone-200 sticky top-0 z-10 w-full shadow-sm">
+    <div className="min-h-screen flex flex-col bg-[#FDFBF7] text-stone-900 font-sans relative selection:bg-[#A7F3D0]">
+      <div 
+        className="fixed inset-0 pointer-events-none opacity-5 mix-blend-multiply" 
+        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'1\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'1\'/%3E%3C/g%3E%3C/svg%3E")', backgroundSize: '16px 16px' }}
+      ></div>
+      <header className="bg-white border-b-4 border-stone-900 sticky top-0 z-30 w-full">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             
             {/* Logo */}
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentView('database')}>
-              <div className="bg-emerald-600 p-1.5 rounded-lg">
-                <Leaf className="h-5 w-5 text-white" />
+            <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setCurrentView('database')}>
+              <div className="bg-[#A7F3D0] p-2 border-2 border-stone-900 shadow-[2px_2px_0_0_rgba(28,25,23,1)] group-hover:shadow-[4px_4px_0_0_rgba(28,25,23,1)] group-hover:-translate-y-0.5 transition-all">
+                <Leaf className="h-6 w-6 text-stone-900 stroke-[2.5]" />
               </div>
-              <span className="font-semibold text-lg tracking-tight text-stone-800">
+              <span className="font-extrabold text-xl tracking-tight text-stone-900 uppercase">
                 Native Habitat
               </span>
             </div>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex space-x-2">
+            <nav className="hidden md:flex space-x-3">
               <Navigation />
             </nav>
 
@@ -182,9 +186,9 @@ export default function App() {
             <div className="md:hidden flex items-center">
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-stone-500 hover:text-stone-900 focus:outline-none p-2"
+                className="text-stone-900 border-2 border-transparent hover:border-stone-900 hover:shadow-[2px_2px_0_0_rgba(28,25,23,1)] p-2 transition-all rounded-none bg-white"
               >
-                <Menu className="h-6 w-6" />
+                <Menu className="h-6 w-6 stroke-[2.5]" />
               </button>
             </div>
           </div>
@@ -192,15 +196,15 @@ export default function App() {
 
         {/* Mobile Nav */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-stone-100 bg-white px-4 pt-2 pb-4 space-y-1 shadow-lg">
-            <div className="flex flex-col space-y-2">
+          <div className="md:hidden border-t-4 border-stone-900 bg-white px-4 pt-4 pb-6 space-y-3 z-40 relative">
+            <div className="flex flex-col space-y-3">
               <Navigation />
             </div>
           </div>
         )}
       </header>
 
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-10">
         {currentView === 'database' && <SpeciesDatabase speciesList={species} />}
         {currentView === 'suggest' && <SuggestSpecies onSubmit={handleSuggest} existingNames={existingNames} />}
         {currentView === 'admin' && <ModerationQueue speciesList={species} onApprove={handleApprove} onReject={handleReject} />}
@@ -210,39 +214,41 @@ export default function App() {
         {currentView === 'disclaimer' && <Disclaimer />}
       </main>
 
-      <footer className="bg-stone-900 border-t border-stone-800 py-12 mt-auto">
+      <footer className="bg-stone-900 border-t-4 border-stone-900 py-16 mt-auto relative z-10 text-stone-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2 text-stone-300">
-              <Leaf className="h-5 w-5 text-emerald-500" />
-              <span className="font-medium text-lg tracking-tight">Native Habitat</span>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex items-center gap-3">
+              <div className="bg-[#A7F3D0] p-1.5 border-2 border-stone-900">
+                <Leaf className="h-6 w-6 text-stone-900 stroke-[2.5]" />
+              </div>
+              <span className="font-extrabold text-xl tracking-tight uppercase">Native Habitat</span>
             </div>
             
-            <div className="flex flex-wrap gap-6 text-sm text-stone-400">
-              <button onClick={() => setCurrentView('about')} className="hover:text-stone-200 transition-colors">About</button>
-              <button onClick={() => setCurrentView('terms')} className="hover:text-stone-200 transition-colors">Terms of Service</button>
-              <button onClick={() => setCurrentView('privacy')} className="hover:text-stone-200 transition-colors">Privacy Policy</button>
-              <button onClick={() => setCurrentView('disclaimer')} className="hover:text-stone-200 transition-colors">Disclaimer</button>
+            <div className="flex flex-wrap gap-8 text-sm font-bold tracking-wide uppercase">
+              <button onClick={() => setCurrentView('about')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">About the Project</button>
+              <button onClick={() => setCurrentView('terms')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">Terms</button>
+              <button onClick={() => setCurrentView('privacy')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">Privacy</button>
+              <button onClick={() => setCurrentView('disclaimer')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">Disclaimer</button>
             </div>
           </div>
           
-          <div className="mt-8 text-center md:text-left text-sm text-stone-500">
-            <p>&copy; {new Date().getFullYear()} Rural Utility Cost. All rights reserved. A community-driven resource for practical land stewardship.</p>
+          <div className="mt-12 text-center md:text-left text-sm text-stone-400 font-medium">
+            <p>&copy; {new Date().getFullYear()} Rural Utility Cost. A community-driven resource for practical land stewardship. Built and cultivated locally.</p>
           </div>
         </div>
       </footer>
 
       {/* Admin Secret Prompt Modal */}
       {isPromptingAdminSecret && (
-        <div className="fixed inset-0 bg-stone-900/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-amber-100 p-2 rounded-full">
-                <Lock className="w-5 h-5 text-amber-600" />
+        <div className="fixed inset-0 bg-stone-900/80 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+          <div className="bg-white border-4 border-stone-900 shadow-[8px_8px_0_0_rgba(28,25,23,1)] p-8 max-w-sm w-full relative">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-stone-200 border-2 border-stone-900 p-2 shadow-[2px_2px_0_0_rgba(28,25,23,1)]">
+                <Lock className="w-6 h-6 text-stone-900 stroke-[2.5]" />
               </div>
-              <h3 className="font-semibold text-lg">Admin Authentication</h3>
+              <h3 className="font-extrabold flex-1 text-xl uppercase tracking-tighter">Admin Auth</h3>
             </div>
-            <p className="text-sm text-stone-600 mb-4">
+            <p className="text-sm font-medium text-stone-700 mb-6">
               Please enter the moderation password to perform this action.
             </p>
             <form onSubmit={e => {
@@ -261,31 +267,30 @@ export default function App() {
                 name="secret"
                 autoFocus
                 placeholder="Admin password"
-                className="w-full px-3 py-2 border border-stone-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-4 py-3 border-2 border-stone-900 rounded-none mb-6 focus:outline-none focus:shadow-[4px_4px_0_0_rgba(28,25,23,1)] transition-all font-bold"
               />
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => {
                     setIsPromptingAdminSecret(false);
                     setPendingAdminAction(null);
                   }}
-                  className="px-4 py-2 text-sm text-stone-600 hover:text-stone-900"
+                  className="px-5 py-2 text-sm font-bold border-2 border-transparent text-stone-600 hover:border-stone-900 hover:shadow-[2px_2px_0_0_rgba(28,25,23,1)] hover:text-stone-900 transition-all rounded-none"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm bg-amber-600 text-white rounded hover:bg-amber-700"
+                  className="px-5 py-2 text-sm font-bold bg-[#FBEB9F] border-2 border-stone-900 text-stone-900 shadow-[4px_4px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-[0px_0px_0_0_rgba(28,25,23,1)] transition-all rounded-none"
                 >
-                  Confirm Action
+                  Confirm
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
-
     </div>
   );
 }
