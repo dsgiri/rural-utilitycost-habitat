@@ -168,11 +168,11 @@ export default function App() {
           <div className="flex justify-between items-center h-20">
             
             {/* Logo */}
-            <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setCurrentView('database')}>
-              <div className="bg-[#A7F3D0] p-2 border-2 border-stone-900 shadow-[2px_2px_0_0_rgba(28,25,23,1)] group-hover:shadow-[4px_4px_0_0_rgba(28,25,23,1)] group-hover:-translate-y-0.5 transition-all">
-                <Leaf className="h-6 w-6 text-stone-900 stroke-[2.5]" />
+            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group" onClick={() => setCurrentView('database')}>
+              <div className="bg-[#A7F3D0] p-1.5 sm:p-2 border-2 border-stone-900 shadow-[2px_2px_0_0_rgba(28,25,23,1)] group-hover:shadow-[4px_4px_0_0_rgba(28,25,23,1)] group-hover:-translate-y-0.5 transition-all shrink-0">
+                <Leaf className="h-5 w-5 sm:h-6 sm:w-6 text-stone-900 stroke-[2.5]" />
               </div>
-              <span className="font-extrabold text-xl tracking-tight text-stone-900 uppercase">
+              <span className="font-extrabold text-[1.1rem] sm:text-xl tracking-tight text-stone-900 uppercase leading-none mt-1 sm:mt-0">
                 Native Habitat
               </span>
             </div>
@@ -183,7 +183,7 @@ export default function App() {
             </nav>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden flex items-center shrink-0">
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="text-stone-900 border-2 border-transparent hover:border-stone-900 hover:shadow-[2px_2px_0_0_rgba(28,25,23,1)] p-2 transition-all rounded-none bg-white"
@@ -224,16 +224,17 @@ export default function App() {
               <span className="font-extrabold text-xl tracking-tight uppercase">Native Habitat</span>
             </div>
             
-            <div className="flex flex-wrap gap-8 text-sm font-bold tracking-wide uppercase">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-8 text-sm font-bold tracking-wide uppercase mt-6 md:mt-0 items-center md:items-start text-center sm:text-left">
               <button onClick={() => setCurrentView('about')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">About the Project</button>
               <button onClick={() => setCurrentView('terms')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">Terms</button>
               <button onClick={() => setCurrentView('privacy')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">Privacy</button>
               <button onClick={() => setCurrentView('disclaimer')} className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all">Disclaimer</button>
+              <a href="https://github.com/dsgiri/rural-utilitycost-habitat" target="_blank" rel="noopener noreferrer" className="hover:text-[#A7F3D0] hover:-translate-y-0.5 transition-all flex items-center gap-1">Open Source Repo</a>
             </div>
           </div>
           
           <div className="mt-12 text-center md:text-left text-sm text-stone-400 font-medium">
-            <p>&copy; {new Date().getFullYear()} Rural Utility Cost. A community-driven resource for practical land stewardship. Built and cultivated locally.</p>
+            <p>&copy; {new Date().getFullYear()} Rural Utility Cost. A free, community-driven resource and open source habitat project. Built and cultivated locally.</p>
           </div>
         </div>
       </footer>

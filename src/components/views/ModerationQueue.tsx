@@ -95,11 +95,11 @@ export function ModerationQueue({ speciesList, onApprove, onReject }: Moderation
               </div>
             </div>
 
-            <div className="bg-stone-100 border-t-4 md:border-t-0 md:border-l-4 border-stone-900 p-6 flex flex-row md:flex-col justify-center gap-4 w-full md:w-56 shrink-0 relative">
+            <div className="bg-stone-100 border-t-4 md:border-t-0 md:border-l-4 border-stone-900 p-5 sm:p-6 flex flex-col sm:flex-row md:flex-col justify-center gap-4 w-full md:w-56 shrink-0 relative">
               <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 1px, transparent 8px)' }}></div>
               <button 
                 onClick={() => onApprove(species.id)}
-                className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-[#A7F3D0] border-2 border-stone-900 text-stone-900 px-4 py-3 font-extrabold uppercase tracking-wider text-sm shadow-[4px_4px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-none transition-all relative z-10 group"
+                className="w-full sm:w-1/2 md:w-full flex items-center justify-center gap-2 bg-[#A7F3D0] border-2 border-stone-900 text-stone-900 px-4 py-3 sm:py-3.5 md:py-3 font-extrabold uppercase tracking-wider text-sm shadow-[4px_4px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-none transition-all relative z-10 group"
                 title="Approve and publish to public library"
               >
                 <Check className="h-5 w-5 stroke-[2.5]" />
@@ -108,14 +108,14 @@ export function ModerationQueue({ speciesList, onApprove, onReject }: Moderation
               
               <button 
                 onClick={() => onReject(species.id)}
-                className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-white border-2 border-stone-900 text-stone-900 px-4 py-3 font-extrabold uppercase tracking-wider text-sm shadow-[4px_4px_0_0_rgba(28,25,23,1)] hover:bg-[#FECACA] hover:translate-y-1 hover:shadow-none transition-all relative z-10 group"
+                className="w-full sm:w-1/2 md:w-full flex items-center justify-center gap-2 bg-white border-2 border-stone-900 text-stone-900 px-4 py-3 sm:py-3.5 md:py-3 font-extrabold uppercase tracking-wider text-sm shadow-[4px_4px_0_0_rgba(28,25,23,1)] hover:bg-[#FECACA] hover:translate-y-1 hover:shadow-none transition-all relative z-10 group"
                 title="Reject submission and archive"
               >
                 <X className="h-5 w-5 stroke-[2.5] group-hover:text-red-900" />
                 Reject
               </button>
               
-              <div className="hidden md:flex items-center justify-center gap-1.5 text-[11px] font-bold text-stone-500 uppercase tracking-widest mt-4 relative z-10 border-t-2 border-stone-300 pt-4">
+              <div className="flex items-center justify-center gap-1.5 text-[11px] font-bold text-stone-500 uppercase tracking-widest mt-2 sm:mt-4 relative z-10 md:border-t-2 border-stone-300 md:pt-4">
                 <Clock className="w-4 h-4 stroke-[2.5]" />
                 <span>{new Date(species.createdAt).toLocaleDateString()}</span>
               </div>

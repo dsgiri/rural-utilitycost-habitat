@@ -126,7 +126,7 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
               setIsSubmitted(false);
               setFormData({ ...formData, commonName: '', scientificName: '', note: '' });
             }}
-            className="px-10 py-4 bg-[#FBEB9F] text-stone-900 border-4 border-stone-900 font-black uppercase tracking-wider text-base transition-all shadow-[6px_6px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-none"
+            className="px-6 sm:px-10 py-3.5 sm:py-4 bg-[#FBEB9F] text-stone-900 border-4 border-stone-900 font-black uppercase tracking-wider text-sm sm:text-base transition-all shadow-[4px_4px_0_0_rgba(28,25,23,1)] sm:shadow-[6px_6px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-none w-full sm:w-auto"
           >
             Add Another Sighting
           </button>
@@ -143,7 +143,7 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
         </div>
         <h2 className="text-4xl md:text-5xl font-black text-stone-900 tracking-tight uppercase mb-4">Add a Local Sighting</h2>
         <p className="text-xl text-stone-700 font-medium">
-          Have you spotted a native species? Help the community build a richer map of what belongs in our ecosystem.
+          Have you spotted a native species? Add it to our community-built species database and help expand our free native habitat guide.
         </p>
       </div>
 
@@ -162,7 +162,7 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
 
       <form onSubmit={handleSubmit} className="bg-white border-4 border-stone-900 shadow-[8px_8px_0_0_rgba(28,25,23,1)] overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-3 bg-[#A7F3D0] border-b-4 border-stone-900"></div>
-        <div className="p-8 md:p-10 space-y-8 mt-4">
+        <div className="p-5 sm:p-8 md:p-10 space-y-8 mt-4">
           
           {error && (
             <div className="p-4 bg-[#FECACA] border-4 border-stone-900 font-bold text-stone-900 flex items-start gap-3 shadow-[4px_4px_0_0_rgba(28,25,23,1)] animate-in shake">
@@ -174,7 +174,7 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div className="space-y-2">
               <label htmlFor="commonName" className="block text-sm font-extrabold uppercase tracking-wider text-stone-900">
                 Common Name <span className="text-red-500">*</span>
@@ -207,7 +207,7 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div className="space-y-2">
               <label htmlFor="category" className="block text-sm font-extrabold uppercase tracking-wider text-stone-900">
                 Category <span className="text-red-500">*</span>
@@ -255,19 +255,19 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
             </div>
           </div>
 
-          <div className="space-y-6 border-4 border-stone-900 p-6 bg-[#FDFBF7] relative mt-2 mb-2">
+          <div className="space-y-6 border-4 border-stone-900 p-4 sm:p-6 bg-[#FDFBF7] relative mt-2 mb-2">
             <div className="absolute -top-3.5 left-4 bg-stone-900 text-white px-3 py-1 text-xs font-black uppercase tracking-widest border-2 border-stone-900 shadow-[2px_2px_0_0_rgba(167,243,208,1)]">
               Where did you see it?
             </div>
             
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4">
-               <p className="text-[14px] font-bold text-stone-700 uppercase tracking-wide max-w-[280px] leading-snug">
+               <p className="text-[13px] sm:text-[14px] font-bold text-stone-700 uppercase tracking-wide max-w-[280px] leading-snug">
                  Drop a pin or enter coordinates manually to help enrich the map.
                </p>
               <button 
                 type="button" 
                 onClick={handleGetLocation}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#A7F3D0] border-2 border-stone-900 font-black uppercase tracking-wider text-sm transition-all shadow-[4px_4px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-[0_0_0_0_rgba(28,25,23,1)]"
+                className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3.5 sm:py-3 bg-[#A7F3D0] border-2 border-stone-900 font-black uppercase tracking-wider text-xs sm:text-sm transition-all shadow-[4px_4px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-[0_0_0_0_rgba(28,25,23,1)] w-full sm:w-auto"
               >
                 <MapPin className="w-5 h-5 stroke-[2.5]" />
                 Grab Current Location
@@ -314,7 +314,7 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-2">
                 <label htmlFor="latitude" className="block text-xs font-extrabold uppercase tracking-wider text-stone-500">
                   Latitude <span className="text-stone-400 font-semibold normal-case tracking-normal"> (optional)</span>
@@ -382,11 +382,11 @@ export function SuggestSpecies({ onSubmit, existingNames }: SuggestSpeciesProps)
 
         </div>
         
-        <div className="p-8 bg-[#A7F3D0] border-t-4 border-stone-900 flex justify-end">
+        <div className="p-6 sm:p-8 bg-[#A7F3D0] border-t-4 border-stone-900 flex justify-end">
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`px-10 py-4 font-black uppercase tracking-wider border-4 border-stone-900 text-lg transition-all focus:outline-none ${isSubmitting ? 'bg-stone-300 text-stone-500 cursor-not-allowed shadow-[6px_6px_0_0_rgba(28,25,23,0.5)]' : 'bg-white text-stone-900 shadow-[6px_6px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-[0px_0px_0_0_rgba(28,25,23,1)]'}`}
+            className={`w-full sm:w-auto px-6 sm:px-10 py-3.5 sm:py-4 font-black uppercase tracking-wider border-4 border-stone-900 text-base sm:text-lg transition-all focus:outline-none ${isSubmitting ? 'bg-stone-300 text-stone-500 cursor-not-allowed shadow-[6px_6px_0_0_rgba(28,25,23,0.5)]' : 'bg-white text-stone-900 shadow-[4px_4px_0_0_rgba(28,25,23,1)] sm:shadow-[6px_6px_0_0_rgba(28,25,23,1)] hover:translate-y-1 hover:shadow-[0px_0px_0_0_rgba(28,25,23,1)]'}`}
           >
             {isSubmitting ? 'Sending Sighting...' : 'Submit to the Map'}
           </button>

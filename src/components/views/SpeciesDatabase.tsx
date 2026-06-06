@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
-import { Search, MapPin, Leaf, Users, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Search, MapPin, Leaf, Users, ChevronRight, CheckCircle2, TreePine, Flower2, Sprout, Bird, PawPrint, HelpCircle, Layers, Download } from 'lucide-react';
 import { Species, Category } from '../../types';
+
+const CategoryIcon = ({ type, className = "w-4 h-4" }: { type: string, className?: string }) => {
+  switch (type) {
+    case 'tree': return <TreePine className={className} />;
+    case 'flower': return <Flower2 className={className} />;
+    case 'shrub': return <Leaf className={className} />;
+    case 'grass': return <Sprout className={className} />;
+    case 'bird': return <Bird className={className} />;
+    case 'animal': return <PawPrint className={className} />;
+    case 'other': return <HelpCircle className={className} />;
+    case 'all': return <Layers className={className} />;
+    default: return <HelpCircle className={className} />;
+  }
+};
 
 interface SpeciesDatabaseProps {
   speciesList: Species[];
@@ -13,8 +27,14 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
   const approvedSpecies = speciesList.filter(s => s.status === 'approved');
 
   const filteredSpecies = approvedSpecies.filter(s => {
-    const matchesSearch = s.commonName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          (s.scientificName && s.scientificName.toLowerCase().includes(searchTerm.toLowerCase()));
+    const searchLower = searchTerm.trim().toLowerCase();
+    const commonNameLower = s.commonName.toLowerCase();
+    const scientificNameLower = s.scientificName ? s.scientificName.toLowerCase() : '';
+    
+    const matchesSearch = searchLower === '' || 
+                          commonNameLower.includes(searchLower) || 
+                          scientificNameLower.includes(searchLower);
+                          
     const matchesCategory = selectedCategory === 'all' || s.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -30,6 +50,41 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
     { value: 'other', label: 'Other' }
   ];
 
+  const handleExportCSV = () => {
+    if (filteredSpecies.length === 0) return;
+
+    const headers = ['Common Name', 'Scientific Name', 'Category', 'Location', 'Location Precision', 'Latitude', 'Longitude', 'Native Status', 'Note', 'Submitter Name', 'Status'];
+    
+    const csvContent = [
+      headers.join(','),
+      ...filteredSpecies.map(s => {
+        return [
+          `"${s.commonName.replace(/"/g, '""')}"`,
+          `"${s.scientificName?.replace(/"/g, '""') || ''}"`,
+          `"${s.category}"`,
+          `"${s.location.replace(/"/g, '""')}"`,
+          `"${s.locationPrecision || ''}"`,
+          s.latitude ?? '',
+          s.longitude ?? '',
+          `"${s.nativeStatus}"`,
+          `"${s.note.replace(/"/g, '""')}"`,
+          `"${s.submitterName?.replace(/"/g, '""') || ''}"`,
+          `"${s.status}"`
+        ].join(',');
+      })
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'native-habitat-species.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="space-y-12 animate-in fade-in duration-500 pb-12">
       
@@ -38,16 +93,16 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
         {/* Simple comic-style dots overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '16px 16px' }}></div>
         
-        <div className="relative z-10 max-w-3xl flex flex-col md:flex-row gap-8 items-start md:items-center">
+        <div className="relative z-10 max-w-3xl flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center">
           <div className="flex-1">
-            <div className="inline-flex items-center gap-2 bg-white border-2 border-stone-900 px-3 py-1 font-bold text-sm tracking-widest uppercase mb-6 shadow-[2px_2px_0_0_rgba(28,25,23,1)]">
+            <div className="inline-flex items-center gap-2 bg-white border-2 border-stone-900 px-3 py-1 font-bold text-sm tracking-widest uppercase mb-5 md:mb-6 shadow-[2px_2px_0_0_rgba(28,25,23,1)]">
               <Users className="w-4 h-4 stroke-[2.5]" /> COMMUNITY-LED
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-stone-900 uppercase tracking-tighter leading-[1.1] mb-6">
-              Explore what's native near you.
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-stone-900 uppercase tracking-tighter leading-[1.1] mb-5 md:mb-6">
+              Explore a free native habitat guide.
             </h1>
-            <p className="text-lg md:text-xl font-medium text-stone-800 mb-8 border-l-4 border-stone-900 pl-4">
-              Help grow the local habitat list. Discover verified species that support local ecosystems, or contribute your own sightings to the community map.
+            <p className="text-base sm:text-lg md:text-xl font-medium text-stone-800 mb-6 md:mb-8 border-l-4 border-stone-900 pl-4">
+              Our community-built species database helps you discover verified native plants and wildlife. Help grow this free and open source habitat project by adding what you see nearby.
             </p>
             <button 
               onClick={() => {
@@ -57,7 +112,7 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
                   searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
               }}
-              className="bg-stone-900 hover:bg-stone-800 text-white px-8 py-3.5 text-lg font-bold transition-all shadow-[6px_6px_0_0_rgba(255,255,255,1)] border-2 border-stone-900 group"
+              className="bg-stone-900 hover:bg-stone-800 text-white px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg font-bold transition-all shadow-[4px_4px_0_0_rgba(255,255,255,1)] sm:shadow-[6px_6px_0_0_rgba(255,255,255,1)] border-2 border-stone-900 group w-full sm:w-auto"
             >
               <span className="flex items-center gap-2">
                 Browse the Guide <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -84,6 +139,7 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
             </div>
             <input
               id="species-search"
+              aria-label="Search species by name"
               type="text"
               placeholder="Search by name..."
               className="w-full pl-12 pr-4 py-3 bg-white border-2 border-stone-900 shadow-[4px_4px_0_0_rgba(28,25,23,1)] focus:outline-none focus:translate-y-1 focus:shadow-[0px_0px_0_0_rgba(28,25,23,1)] transition-all font-medium placeholder:text-stone-400"
@@ -93,21 +149,34 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-3 mb-8">
-          {categories.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => setSelectedCategory(cat.value)}
-              className={`px-5 py-2 font-bold uppercase tracking-wider text-sm transition-all border-2 rounded-none ${
-                selectedCategory === cat.value
-                  ? 'bg-[#FBEB9F] border-stone-900 text-stone-900 shadow-[3px_3px_0_0_rgba(28,25,23,1)]'
-                  : 'bg-white border-stone-300 text-stone-600 hover:border-stone-900 hover:text-stone-900 hover:shadow-[3px_3px_0_0_rgba(28,25,23,1)]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        {/* Filters and Actions */}
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 sm:gap-4 mb-8">
+          <div className="flex flex-wrap gap-2 md:gap-3">
+            {categories.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setSelectedCategory(cat.value)}
+                className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2.5 sm:py-2 font-bold uppercase tracking-wider text-[11px] sm:text-sm transition-all border-2 rounded-none grow sm:grow-0 ${
+                  selectedCategory === cat.value
+                    ? 'bg-[#FBEB9F] border-stone-900 text-stone-900 shadow-[3px_3px_0_0_rgba(28,25,23,1)]'
+                    : 'bg-white border-stone-300 text-stone-600 hover:border-stone-900 hover:text-stone-900 hover:shadow-[3px_3px_0_0_rgba(28,25,23,1)]'
+                }`}
+              >
+                <CategoryIcon type={cat.value} />
+                {cat.label}
+              </button>
+            ))}
+          </div>
+          
+          <button
+            onClick={handleExportCSV}
+            disabled={filteredSpecies.length === 0}
+            className="flex items-center justify-center gap-2 px-5 py-3 sm:py-3 font-bold uppercase tracking-wider text-sm bg-stone-100 border-2 border-stone-900 text-stone-900 transition-all hover:bg-stone-200 hover:shadow-[3px_3px_0_0_rgba(28,25,23,1)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none w-full xl:w-auto xl:self-auto shrink-0 mt-2 xl:mt-0"
+            title="Download CSV"
+          >
+            <Download className="w-4 h-4 stroke-[2.5]" />
+            Export CSV
+          </button>
         </div>
 
         {/* Grid */}
@@ -118,15 +187,16 @@ export function SpeciesDatabase({ speciesList }: SpeciesDatabaseProps) {
                 {/* Offset shadow container behind the card to avoid clipping on overflow */}
                 <div className="absolute inset-0 bg-stone-900 -z-10 translate-x-2 translate-y-2"></div>
                 
-                <div className="p-6 md:p-8 flex-1 bg-white relative z-10 border-b-4 border-stone-900">
-                  <div className="flex justify-between items-start mb-4 gap-4">
+                <div className="p-5 sm:p-6 md:p-8 flex-1 bg-white relative z-10 border-b-4 border-stone-900">
+                  <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-3 sm:gap-4">
                     <div>
-                      <h3 className="text-2xl font-extrabold text-stone-900 uppercase tracking-tight group-hover:text-amber-600 transition-colors">{species.commonName}</h3>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 uppercase tracking-tight group-hover:text-amber-600 transition-colors leading-tight">{species.commonName}</h3>
                       {species.scientificName && (
-                        <p className="text-sm font-medium italic text-stone-600 mt-1">{species.scientificName}</p>
+                        <p className="text-xs sm:text-sm font-medium italic text-stone-600 mt-1">{species.scientificName}</p>
                       )}
                     </div>
-                    <span className="inline-flex items-center px-3 py-1 text-xs font-bold uppercase tracking-widest bg-[#BFDBFE] border-2 border-stone-900 text-stone-900 shrink-0">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold uppercase tracking-widest bg-[#BFDBFE] border-2 border-stone-900 text-stone-900 shrink-0 mt-1 sm:mt-0">
+                      <CategoryIcon type={species.category} className="w-3.5 h-3.5" />
                       {species.category}
                     </span>
                   </div>
