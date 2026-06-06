@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Leaf, Users, ChevronRight, CheckCircle2 } from 'lucide-react';
-import { Species, Category } from '../types';
+import { Species, Category } from '../../types';
 
 interface SpeciesDatabaseProps {
   speciesList: Species[];
